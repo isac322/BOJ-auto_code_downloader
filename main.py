@@ -1,10 +1,9 @@
-from NetworkTool import down_file, login, get_soup
-
-__author__ = 'isac3'
-
 import os
 
-import Problem
+from NetworkTool import down_file, login, get_soup
+from Problem import Problem
+
+__author__ = 'isac3'
 
 
 def get_solved_problems(sp):
@@ -25,7 +24,7 @@ def make_code_file(problem_num, language):
 	file_name = problem_num + '.' + extension
 	directory = os.path.join(working_dir, language)
 
-	return open(os.path.join(directory, file_name), 'wb+')
+	return open(os.path.join(directory, file_name), 'w+', encoding='utf-8')
 
 
 def analyze_problem(problem_num):
@@ -49,10 +48,10 @@ def analyze_problem(problem_num):
 		if len(length_text) != 0:
 			length = length_text.split()[0]
 
-		element = Problem.Problem(judge_id=column[0].text,
-								mem=column[4].contents[0],
-								time=column[5].contents[0],
-								code_len=length)
+		element = Problem(judge_id=column[0].text,
+						  mem=column[4].contents[0],
+						  time=column[5].contents[0],
+						  code_len=length)
 
 		language_set.add(language)
 
@@ -77,11 +76,13 @@ def get_submitted_files(problems):
 
 		for language, source_code in submitted_codes.items():
 			file = make_code_file(problem_num, language)
-			file.write(down_file(source_code.judge_id, full_cookie))
+			downloaded = down_file(source_code.judge_id, full_cookie)
+			file.write(str(downloaded.decode('utf-8')))
 			file.close()
 
 
 def get_extension(language):
+	# todo add extensions
 	if language in ['C++', 'C++11']:
 		return 'cpp'
 	elif language in ['C']:
