@@ -59,8 +59,6 @@ working_dir = ''
 
 
 def make_code_file(problem_num, language):
-	# todo : implement
-
 	extension = Tools.get_extension(language)
 
 	file_name = problem_num + '.' + extension
@@ -70,9 +68,8 @@ def make_code_file(problem_num, language):
 
 
 def analyze_problem(problem_num):
-	# todo : analyze implement
 	url = 'https://www.acmicpc.net/status/?'
-	query = {'problem_id': problem_num, 'user_id': user_id, 'result_id': '4'}
+	query = {'problem_id': problem_num, 'user_id': user_id, 'result_id': '4', 'language_id': '-1', 'from_mine': '1'}
 
 	for k, v in query.items():
 		url += k + '=' + v + '&'
@@ -80,17 +77,21 @@ def analyze_problem(problem_num):
 	table = dict()
 	language_set = set()
 
-	page = get_soup(url)
+	page = get_soup(url, query)
 	for row in page.find('tbody').find_all('tr'):
 		column = row.find_all('td')
 
 		language = column[6].text.strip()
 
+		length = None
+		length_text = column[7].text.strip()
+		if len(length_text) != 0:
+			length = length_text.split()[0]
+
 		element = Tools.Problem(judge_id=column[0].text,
 								mem=column[4].contents[0],
 								time=column[5].contents[0],
-								lang=language,
-								code_len=column[7].text.strip().split()[0])
+								code_len=length)
 
 		language_set.add(language)
 
@@ -117,25 +118,10 @@ def get_submitted_files(problems):
 			file = make_code_file(problem_num, language)
 			file.write(down_file(source_code.judge_id, full_cookie))
 			file.close()
-		# todo : implement
 
 
-def login(id, pw):
-	cookie_response = get_response('https://www.acmicpc.net')
-
-	cookie = ''
-	patt = re.compile('^.*((__cfduid|OnlineJudge)[=].*);.*&', re.MULTILINE)
-	searched = patt.finditer(str(cookie_response.info()))
-	print('fffffffffffffffff')
-	for v in searched:
-		print(v.string)
-		cookie += v.group(1) + '; '
-
-	print(cookie)
-
-	cookie_response.close()
-
-	query = {'login_user_id': user_id, 'login_password': user_pw, 'auto_login': 'on'}
+def login(user_name, pw):
+	query = {'login_user_id': user_name, 'login_password': pw, 'auto_login': 'on'}
 	data = urlencode(query)
 	header = {
 		'Host': 'www.acmicpc.net',
@@ -149,13 +135,18 @@ def login(id, pw):
 		'Referer': 'https://www.acmicpc.net/login/?next=/',
 		'Accept-Encoding': 'gzip, deflate',
 		'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4',
-		'Cookie': cookie
 	}
 
 	conn = http.client.HTTPSConnection("www.acmicpc.net")
 	conn.request('POST', '/signin', data, header)
 	response = conn.getresponse()
-	print(response.info())
+
+	cookie = ''
+	patt = re.compile('^.*((__cfduid|OnlineJudge|acmicpcautologin)[=][\w\d]+;).*$', re.MULTILINE)
+
+	for line in patt.finditer(str(response.info())):
+		cookie += line.group(1) + ' '
+
 	response.close()
 	# print(response.msg)
 
@@ -174,7 +165,7 @@ def down_file(judge_id, cookie):
 		'Referer': 'https://www.acmicpc.net/source/' + judge_id,
 		'Accept-Encoding': 'gzip, deflate',
 		'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4',
-		'Cookie': cookie
+		'Cookie': cookie + ' _gauges_unique_day=1; _gauges_unique_month=1; _gauges_unique_year=1; _gauges_unique=1; _ga=GA1.2.1918118912.1444272664'
 	}
 
 	conn = http.client.HTTPSConnection("www.acmicpc.net")
