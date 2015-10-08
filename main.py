@@ -185,7 +185,7 @@ if __name__ == '__main__':
 	user_id = input('enter user id : ')
 	user_pw = input('enter password : ')
 	full_cookie = login(user_id, user_pw)
-	print(full_cookie)
+	# print(full_cookie)
 
 	soup = get_soup('https://acmicpc.net/user/' + user_id)
 
