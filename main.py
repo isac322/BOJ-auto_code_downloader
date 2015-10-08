@@ -1,4 +1,6 @@
 import os
+import threading
+import time
 
 from NetworkTool import down_file, login, get_soup
 from Problem import Problem
@@ -65,20 +67,36 @@ def analyze_problem(problem_num):
 	return table, language_set
 
 
-def get_submitted_files(problems):
-	for problem_num in problems:
-		submitted_codes, language_set = analyze_problem(problem_num)
+semaphore = threading.Semaphore(1)
+total_language_set = set()
 
-		for language in language_set:
-			directory = os.path.join(working_dir, language)
+
+def analyze_and_make(problem_num):
+	submitted_codes, language_set = analyze_problem(problem_num)
+
+	for language in language_set:
+		directory = os.path.join(working_dir, language)
+
+		if language not in total_language_set:
+			semaphore.acquire()
 			if not os.path.exists(directory):
 				os.makedirs(directory)
 
-		for language, source_code in submitted_codes.items():
-			file = make_code_file(problem_num, language)
-			downloaded = down_file(source_code.judge_id, full_cookie)
-			file.write(str(downloaded.decode('utf-8')))
-			file.close()
+			total_language_set.add(language)
+			semaphore.release()
+
+	for language, source_code in submitted_codes.items():
+		file = make_code_file(problem_num, language)
+		downloaded = down_file(source_code.judge_id, full_cookie)
+		file.write(str(downloaded.decode('utf-8')))
+		file.close()
+
+
+def get_submitted_files(problems):
+	for problem_num in problems:
+		thread_file_maker = threading.Thread(target=analyze_and_make, args=(problem_num,))
+		thread_file_maker.start()
+		time.sleep(0.1)
 
 
 def get_extension(language):

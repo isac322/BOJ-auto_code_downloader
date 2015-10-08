@@ -37,7 +37,7 @@ def down_file(judge_id, cookie):
 
 
 def login(user_name, pw):
-	query = {'login_user_id': user_name, 'login_password': pw, 'auto_login': 'on'}
+	query = {'login_user_id': user_name, 'login_password': pw}
 	data = urlencode(query)
 	header = {
 		'Host': 'www.acmicpc.net',
