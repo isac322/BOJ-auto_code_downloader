@@ -25,18 +25,3 @@ class Problem:
 
 	def __repr__(self):
 		return self.__str__()
-
-
-def get_extension(language):
-	if language in ['C++', 'C++11']:
-		return 'cpp'
-	elif language in ['C']:
-		return 'c'
-	elif language in ['Python', 'Python3', 'PyPy']:
-		return 'py'
-	elif language in ['Java']:
-		return 'java'
-	elif language in ['Text']:
-		return 'txt'
-	elif language in ['PHP']:
-		return 'php'

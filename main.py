@@ -4,7 +4,7 @@ __author__ = 'isac3'
 
 import os
 
-import Tools
+import Problem
 
 
 def get_solved_problems(sp):
@@ -49,7 +49,7 @@ def analyze_problem(problem_num):
 		if len(length_text) != 0:
 			length = length_text.split()[0]
 
-		element = Tools.Problem(judge_id=column[0].text,
+		element = Problem.Problem(judge_id=column[0].text,
 								mem=column[4].contents[0],
 								time=column[5].contents[0],
 								code_len=length)
