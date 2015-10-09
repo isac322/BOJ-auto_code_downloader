@@ -57,6 +57,10 @@ def login(user_name, pw):
 	conn.request('POST', '/signin', data, header)
 	response = conn.getresponse()
 
+	if 'error' in response.info()['Location']:
+		print('invalid login')
+		exit(1)
+
 	cookie = ''
 	patt = re.compile('^.*((__cfduid|OnlineJudge|acmicpcautologin)[=][\w\d]+;).*$', re.MULTILINE)
 
@@ -100,3 +104,7 @@ def get_response(url, query=None, header=None):
 	except urllib.error.HTTPError:
 		print('invalid username')
 		sys.exit(1)
+
+
+if __name__ == '__main__':
+	print('please run main.py')

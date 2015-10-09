@@ -1,6 +1,7 @@
 import os
 import threading
 import time
+from getpass import getpass
 
 from NetworkTool import down_file, login, get_soup
 from Problem import Problem
@@ -37,7 +38,6 @@ def analyze_problem(problem_num):
 		url += k + '=' + v + '&'
 
 	table = dict()
-	language_set = set()
 
 	page = get_soup(url, query)
 	for row in page.find('tbody').find_all('tr'):
@@ -55,8 +55,6 @@ def analyze_problem(problem_num):
 						  time=column[5].contents[0],
 						  code_len=length)
 
-		language_set.add(language)
-
 		if table.get(language) is None:
 			table[language] = element
 		else:
@@ -64,7 +62,7 @@ def analyze_problem(problem_num):
 
 	print(problem_num, table)
 
-	return table, language_set
+	return table
 
 
 semaphore = threading.Semaphore(1)
@@ -72,9 +70,9 @@ total_language_set = set()
 
 
 def analyze_and_make(problem_num):
-	submitted_codes, language_set = analyze_problem(problem_num)
+	submitted_codes = analyze_problem(problem_num)
 
-	for language in language_set:
+	for language in submitted_codes.keys():
 		directory = os.path.join(working_dir, language)
 
 		if language not in total_language_set:
@@ -96,14 +94,14 @@ def get_submitted_files(problems):
 	for problem_num in problems:
 		thread_file_maker = threading.Thread(target=analyze_and_make, args=(problem_num,))
 		thread_file_maker.start()
-		time.sleep(0.1)
+		time.sleep(0.01)
 
 
 def get_extension(language):
 	# todo add extensions
-	if language in ['C++', 'C++11']:
+	if language in ['C++', 'C++11', 'C++ (Clang)']:
 		return 'cpp'
-	elif language in ['C']:
+	elif language in ['C', 'C (Clang)']:
 		return 'c'
 	elif language in ['Python', 'Python3', 'PyPy']:
 		return 'py'
@@ -113,13 +111,77 @@ def get_extension(language):
 		return 'txt'
 	elif language in ['PHP']:
 		return 'php'
+	elif language in ['Ruby 1.8', 'Ruby 1.9']:
+		return 'rb'
+	elif language in ['C# 2.0', 'C# 4.0']:
+		return 'cs'
+	elif language in ['Pascal']:
+		return 'pas'
+	elif language in ['D']:
+		return 'd'
+	elif language in ['Go']:
+		return 'go'
+	elif language in ['awk']:
+		return 'awk'
+	elif language in ['VB.NET 2.0']:
+		return 'vb'
+	elif language in ['Ada']:
+		return 'ada'
+	elif language in ['Perl', 'Perl6', 'Prolog']:
+		return 'pl'
+	elif language in ['node.js', 'SpiderMonkey']:
+		return 'js'
+	elif language in ['Lua']:
+		return 'lua'
+	elif language in ['Objective-C++', 'Objective-C']:
+		return 'm'
+	elif language in ['Fortran']:
+		return 'for'
+	elif language in ['Scheme']:
+		return 'scm'
+	elif language in ['OCaml']:
+		return 'ml'
+	elif language in ['Brainfuck']:
+		return 'bf'
+	elif language in ['Whitespace']:
+		return 'ws'
+	elif language in ['Groovy']:
+		return 'groovy'
+	elif language in ['Tcl']:
+		return 'tcl'
+	elif language in ['Assembly']:
+		return 'asm'
+	elif language in ['Clojure']:
+		return 'clj'
+	elif language in ['Rhino']:
+		return 'js.java'
+	elif language in ['Pike']:
+		return ''
+	elif language in ['sed']:
+		return 'sed'
+	elif language in ['Boo']:
+		return 'boo'
+	elif language in ['Intercal']:
+		return 'o'
+	elif language in ['bc']:
+		return 'bc'
+	elif language in ['Nemerle']:
+		return 'n'
+	elif language in ['Cobra']:
+		return 'cobra'
+	elif language in ['Nimrod']:
+		return 'nim'
+	elif language in ['Io']:
+		return 'io'
+	elif language in ['아희']:
+		return ''
 
 
 if __name__ == '__main__':
 	working_dir = os.getcwd()
 
-	user_id = input('enter user id : ')
-	user_pw = input('enter password : ')
+	user_id = input('enter nickname : ')
+	user_pw = getpass('enter password : ')
 	full_cookie = login(user_id, user_pw)
 	# print(full_cookie)
 
