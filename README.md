@@ -1,4 +1,4 @@
-#[Baekjoon Online Judge](https://www.acmicpc.net/) Submitted Code Download Tool
+#[BOJ](https://www.acmicpc.net/) Submitted Code Auto Download Tool
 
 ##왜 만들었는가?
 
