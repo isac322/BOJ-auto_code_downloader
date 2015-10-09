@@ -1,8 +1,18 @@
-#[Baekjoon Online Judge](http://www.acmicpc.net/) Submitted Code Download Tool
+#[Baekjoon Online Judge](https://www.acmicpc.net/) Submitted Code Download Tool
 
 ##왜 만들었는가?
 
 - 시험기간이다.
+
+##Tool 사용 환경
+
+- Python3
+- Beautiful Soup 4
+
+	###Beautiful Soup 4 설치법
+	
+	- [설치법](https://www.acmicpc.net/blog/view/16)
+	- <B>주의</B> : UNIX에서 pip를 이용할 경우 python3용 pip사용 ([설치](http://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3), 실행 : pip3) 
 
 ##Tool 설명
     
@@ -18,7 +28,7 @@
 
 ##Tool 사용법
 
-- just run
+	python3 main.py
 	
 ###Issue
 

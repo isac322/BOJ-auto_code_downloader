@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import os
 import threading
 import time
@@ -6,7 +9,7 @@ from getpass import getpass
 from NetworkTool import down_file, login, get_soup
 from Problem import Problem
 
-__author__ = 'isac3'
+__author__ = 'isac322'
 
 
 def get_solved_problems(sp):

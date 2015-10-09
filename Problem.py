@@ -1,4 +1,7 @@
-__author__ = 'isac3'
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+__author__ = 'isac322'
 
 
 class Problem:
