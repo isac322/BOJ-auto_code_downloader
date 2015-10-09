@@ -97,7 +97,7 @@ def get_submitted_files(problems):
 	for problem_num in problems:
 		thread_file_maker = threading.Thread(target=analyze_and_make, args=(problem_num,))
 		thread_file_maker.start()
-		time.sleep(0.01)
+		time.sleep(0.1)
 
 
 def get_extension(language):
