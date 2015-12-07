@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import http.client
 import re
 import sys
@@ -7,7 +9,7 @@ from urllib.request import Request, urlopen
 
 from bs4 import BeautifulSoup as Bs
 
-__author__ = 'isac3'
+__author__ = 'isac322'
 
 
 def down_file(judge_id, cookie):

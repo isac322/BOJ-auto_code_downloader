@@ -1,4 +1,6 @@
-__author__ = 'isac3'
+# -*- coding: utf-8 -*-
+
+__author__ = 'isac322'
 
 
 class Problem:

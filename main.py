@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import threading
 import time
@@ -6,7 +8,7 @@ from getpass import getpass
 from NetworkTool import down_file, login, get_soup
 from Problem import Problem
 
-__author__ = 'isac3'
+__author__ = 'isac322'
 
 
 def get_solved_problems(sp):
@@ -25,7 +27,7 @@ def make_code_file(problem_num, language):
 	extension = get_extension(language)
 
 	file_name = problem_num + '.' + extension
-	directory = os.path.join(working_dir, language)
+	directory = os.path.join(working_dir, problem_num)
 
 	return open(os.path.join(directory, file_name), 'w+', encoding='utf-8')
 
@@ -65,23 +67,13 @@ def analyze_problem(problem_num):
 	return table
 
 
-semaphore = threading.Semaphore(1)
-total_language_set = set()
-
-
 def analyze_and_make(problem_num):
 	submitted_codes = analyze_problem(problem_num)
 
-	for language in submitted_codes.keys():
-		directory = os.path.join(working_dir, language)
+	directory = os.path.join(working_dir, problem_num)
 
-		if language not in total_language_set:
-			semaphore.acquire()
-			if not os.path.exists(directory):
-				os.makedirs(directory)
-
-			total_language_set.add(language)
-			semaphore.release()
+	if not os.path.exists(directory):
+		os.makedirs(directory)
 
 	for language, source_code in submitted_codes.items():
 		file = make_code_file(problem_num, language)
@@ -94,17 +86,23 @@ def get_submitted_files(problems):
 	for problem_num in problems:
 		thread_file_maker = threading.Thread(target=analyze_and_make, args=(problem_num,))
 		thread_file_maker.start()
-		time.sleep(0.01)
+		time.sleep(0.001)
 
 
 def get_extension(language):
 	# todo add extensions
-	if language in ['C++', 'C++11', 'C++ (Clang)']:
+	if language in ['C++', 'C++ (Clang)']:
 		return 'cpp'
+	elif language in ['C++11']:
+		return 'cpp11.cpp'
 	elif language in ['C', 'C (Clang)']:
 		return 'c'
-	elif language in ['Python', 'Python3', 'PyPy']:
+	elif language in ['Python']:
 		return 'py'
+	elif language in ['Python3']:
+		return 'py3.py'
+	elif language in ['PyPy']:
+		return 'pypy.py'
 	elif language in ['Java']:
 		return 'java'
 	elif language in ['Text']:
