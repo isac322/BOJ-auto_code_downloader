@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 import os
@@ -86,7 +87,7 @@ def get_submitted_files(problems):
 	for problem_num in problems:
 		thread_file_maker = threading.Thread(target=analyze_and_make, args=(problem_num,))
 		thread_file_maker.start()
-		time.sleep(0.001)
+		time.sleep(0.005)
 
 
 def get_extension(language):
@@ -176,14 +177,17 @@ def get_extension(language):
 
 
 if __name__ == '__main__':
-	working_dir = os.getcwd()
-
 	user_id = input('enter nickname : ')
 	user_pw = getpass('enter password : ')
 	full_cookie = login(user_id, user_pw)
 	# print(full_cookie)
 
 	soup = get_soup('https://acmicpc.net/user/' + user_id)
+
+	working_dir = os.path.join(os.getcwd(), user_id)
+
+	if not os.path.exists(working_dir):
+		os.makedirs(working_dir)
 
 	problem_set = get_solved_problems(soup)
 
