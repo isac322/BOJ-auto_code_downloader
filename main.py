@@ -96,6 +96,8 @@ def get_extension(language):
 		return 'cpp'
 	elif language in ['C++11']:
 		return 'cpp11.cpp'
+	elif language in ['C++14']:
+		return 'cpp14.cpp'
 	elif language in ['C', 'C (Clang)']:
 		return 'c'
 	elif language in ['Python']:
@@ -132,10 +134,12 @@ def get_extension(language):
 		return 'js'
 	elif language in ['Lua']:
 		return 'lua'
-	elif language in ['Objective-C++', 'Objective-C']:
+	elif language in ['Objective-C']:
 		return 'm'
+	elif language in ['Objective-C++']:
+		return 'mm'
 	elif language in ['Fortran']:
-		return 'for'
+		return 'f95'
 	elif language in ['Scheme']:
 		return 'scm'
 	elif language in ['OCaml']:
@@ -153,15 +157,15 @@ def get_extension(language):
 	elif language in ['Clojure']:
 		return 'clj'
 	elif language in ['Rhino']:
-		return 'js.java'
+		return 'Rhino.js'
 	elif language in ['Pike']:
-		return ''
+		return 'pike'
 	elif language in ['sed']:
 		return 'sed'
 	elif language in ['Boo']:
 		return 'boo'
 	elif language in ['Intercal']:
-		return 'o'
+		return 'i'
 	elif language in ['bc']:
 		return 'bc'
 	elif language in ['Nemerle']:
@@ -173,7 +177,7 @@ def get_extension(language):
 	elif language in ['Io']:
 		return 'io'
 	elif language in ['아희']:
-		return ''
+		return 'aheui'
 
 
 if __name__ == '__main__':
