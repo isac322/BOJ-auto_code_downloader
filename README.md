@@ -20,13 +20,18 @@
 
 - [python3](https://www.python.org/downloads/)
 
-- [beautifulsoup](https://www.crummy.com/software/BeautifulSoup/)
 
-    $ python3 -m pip install beautifulsoup4
+- [beautifulsoup4](https://www.crummy.com/software/BeautifulSoup/)
+
+```bash
+$ python3 -m pip install beautifulsoup4
+```
 
 ## 사용법
 
-    $ python3 main.py
+```bash
+$ python3 main.py
+```
 	
 ### Issue
 
