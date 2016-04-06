@@ -23,7 +23,10 @@
 
 - [beautifulsoup4](https://www.crummy.com/software/BeautifulSoup/)
 
+> Ubuntu:
+
 ```bash
+$ sudo apt install python3-pip
 $ python3 -m pip install beautifulsoup4
 ```
 
