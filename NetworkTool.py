@@ -21,14 +21,14 @@ def down_file(judge_id, cookie):
 		'Upgrade-Insecure-Requests': '1',
 		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
 		'Content-Type': 'application/x-www-form-urlencoded',
-		'Referer': 'https://www.acmicpc.net/source/' + judge_id,
+		'Referer': 'https://www.acmicpc.net/source/{}'.format(judge_id),
 		'Accept-Encoding': 'gzip, deflate',
 		'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4',
 		'Cookie': cookie + ' _gauges_unique_day=1; _gauges_unique_month=1; _gauges_unique_year=1; _gauges_unique=1; _ga=GA1.2.1918118912.1444272664'
 	}
 
 	conn = http.client.HTTPSConnection("www.acmicpc.net")
-	conn.request('POST', '/source/download/' + judge_id, None, header)
+	conn.request('POST', '/source/download/{}'.format(judge_id), None, header)
 
 	response = conn.getresponse()
 	code = response.read()

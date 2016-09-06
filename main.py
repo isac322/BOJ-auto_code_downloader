@@ -43,7 +43,12 @@ def analyze_problem(problem_num):
 	table = dict()
 
 	page = get_soup(url, query)
-	for row in page.find('tbody').find_all('tr'):
+	rows = page.find('tbody').find_all('tr')
+
+	if len(rows) is 0:
+		return table
+
+	for row in rows:
 		column = row.find_all('td')
 
 		language = column[6].text.strip()
@@ -63,7 +68,8 @@ def analyze_problem(problem_num):
 		else:
 			table[language] = min(table[language], element)
 
-	print(problem_num, table)
+	problem_name = rows[0].find_all('td')[2].a['title']
+	print("{} {} ".format(problem_num, problem_name), table)
 
 	return table
 
@@ -194,7 +200,5 @@ if __name__ == '__main__':
 		os.makedirs(working_dir)
 
 	problem_set = get_solved_problems(soup)
-
-	print(problem_set)
 
 	get_submitted_files(problem_set)
