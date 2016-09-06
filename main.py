@@ -69,7 +69,7 @@ def analyze_problem(problem_num):
 			table[language] = min(table[language], element)
 
 	problem_name = rows[0].find_all('td')[2].a['title']
-	print("{} {} ".format(problem_num, problem_name), table)
+	print("{:5s} {:15s} ".format(problem_num, problem_name), table)
 
 	return table
 
