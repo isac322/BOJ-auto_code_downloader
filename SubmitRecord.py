@@ -5,7 +5,7 @@ import sys
 __author__ = 'isac322'
 
 
-class Problem:
+class SubmitRecord:
 	def __init__(self, judge_id, mem, time, code_len=None):
 		try:
 			self.judge_id = int(judge_id)
@@ -35,10 +35,10 @@ class Problem:
 
 	def __str__(self):
 		if self.code_length:
-			return 'ID: {0}, Mem: {1} KB, Time: {2} MS, Size: {3} B'\
+			return 'ID:{:>8}\tMem:{:>6}KB\tTime:{:>5}MS\tSize:{:>5}B' \
 				.format(self.judge_id, self.memory_size, self.time, self.code_length)
 		else:
-			return 'ID  {0}, Mem: {1} KB, Time: {2} MS'.format(self.judge_id, self.memory_size, self.time)
+			return 'ID:{:>8}\tMem:{:>6}KB\tTime:{:>5}MS'.format(self.judge_id, self.memory_size, self.time)
 
 	def __repr__(self):
 		return self.__str__()

@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import multiprocessing
 import os
 import threading
-import time
 from getpass import getpass
 
+from SubmitRecord import SubmitRecord
+
 from NetworkTool import down_file, login, get_soup
-from Problem import Problem
 
 __author__ = 'isac322'
 
@@ -31,6 +32,9 @@ def make_code_file(problem_num, language):
 	directory = os.path.join(working_dir, problem_num)
 
 	return open(os.path.join(directory, file_name), 'w+', encoding='utf-8')
+
+
+screenLock = threading.Lock()
 
 
 def analyze_problem(problem_num):
@@ -58,10 +62,10 @@ def analyze_problem(problem_num):
 		if len(length_text) != 0:
 			length = length_text.split()[0]
 
-		element = Problem(judge_id=column[0].text,
-						  mem=column[4].contents[0],
-						  time=column[5].contents[0],
-						  code_len=length)
+		element = SubmitRecord(judge_id=column[0].text,
+							   mem=column[4].contents[0],
+							   time=column[5].contents[0],
+							   code_len=length)
 
 		if table.get(language) is None:
 			table[language] = element
@@ -69,9 +73,17 @@ def analyze_problem(problem_num):
 			table[language] = min(table[language], element)
 
 	problem_name = rows[0].find_all('td')[2].a['title']
-	print("{:5s} {:15s} ".format(problem_num, problem_name), table)
+
+	screenLock.acquire()
+	print("{:5s} {}".format(problem_num, problem_name))
+	for l, e in table.items():
+		print("\t{:10s} {}".format(l, e))
+	screenLock.release()
 
 	return table
+
+
+networkSemaphore = threading.BoundedSemaphore(multiprocessing.cpu_count() * 3)
 
 
 def analyze_and_make(problem_num):
@@ -88,12 +100,14 @@ def analyze_and_make(problem_num):
 		file.write(str(downloaded.decode('utf-8')))
 		file.close()
 
+	networkSemaphore.release()
+
 
 def get_submitted_files(problems):
 	for problem_num in problems:
-		thread_file_maker = threading.Thread(target=analyze_and_make, args=(problem_num,))
+		networkSemaphore.acquire()
+		thread_file_maker = threading.Thread(target=analyze_and_make, args=(problem_num,), daemon=False)
 		thread_file_maker.start()
-		time.sleep(0.02)
 
 
 def get_extension(language):
