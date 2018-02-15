@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 import http.client
 import re
-import sys
 import urllib.error
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+import sys
 from bs4 import BeautifulSoup as Bs
 
 __author__ = 'isac322'
@@ -19,15 +19,17 @@ def down_file(judge_id, cookie):
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Origin': 'https://www.acmicpc.net,.',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/45.0.2454.101 Safari/537.36',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Referer': 'https://www.acmicpc.net/source/{}'.format(judge_id),
         'Accept-Encoding': 'gzip, deflate',
         'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4',
-        'Cookie': cookie + ' _gauges_unique_day=1; _gauges_unique_month=1; _gauges_unique_year=1; _gauges_unique=1; _ga=GA1.2.1918118912.1444272664'
+        'Cookie': cookie + ' _gauges_unique_day=1; _gauges_unique_month=1; _gauges_unique_year=1; _gauges_unique=1; '
+                           '_ga=GA1.2.1918118912.1444272664'
     }
 
-    conn = http.client.HTTPSConnection("www.acmicpc.net")
+    conn = http.client.HTTPSConnection('www.acmicpc.net')
     conn.request('POST', '/source/download/{}'.format(judge_id), None, header)
 
     response = conn.getresponse()
@@ -48,14 +50,15 @@ def login(user_name, pw):
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Origin': 'https://www.acmicpc.net',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/45.0.2454.101 Safari/537.36',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Referer': 'https://www.acmicpc.net/login/?next=/',
         'Accept-Encoding': 'gzip, deflate',
         'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4',
     }
 
-    conn = http.client.HTTPSConnection("www.acmicpc.net")
+    conn = http.client.HTTPSConnection('www.acmicpc.net')
     conn.request('POST', '/signin', data, header)
     response = conn.getresponse()
 
@@ -84,7 +87,8 @@ def get_soup(url, query=None):
 
 def get_response(url, query=None, header=None):
     if header is None:
-        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36'
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+                     'Chrome/45.0.2454.101 Safari/537.36'
         header = {
             'Connection': 'keep-alive',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
