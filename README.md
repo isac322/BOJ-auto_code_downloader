@@ -19,21 +19,22 @@
 ## 종속성
 
 - [python3](https://www.python.org/downloads/)
-
-
 - [beautifulsoup4](https://www.crummy.com/software/BeautifulSoup/)
 
-> Ubuntu:
+#### Ubuntu
 
 ```bash
-$ sudo apt install python3-pip
-$ python3 -m pip install beautifulsoup4
+# 패키지 설치
+sudo apt install python3-pip
+
+# beautifulsoup4 설치
+pip3 install -r requirements.txt
 ```
 
 ## 사용법
 
 ```bash
-$ python3 main.py
+python3 main.py
 ```
 	
 ### Issue
@@ -44,3 +45,4 @@ $ python3 main.py
 
 - 2016/9/6 : 가장 '좋은'코드가 아니라 가장 '안좋은'코드를 선택하던 **치명적인** 문제 해결
 - 2016/9/7 : 프로그램이 종료되지 않던 문제 해결, 결과화면 정리
+- 2019/1/2 : 페이지 URL 변경으로인한 에러 수정 (thanks to @MilkClouds)
