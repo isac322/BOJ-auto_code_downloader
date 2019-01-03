@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # coding: utf-8
 
 import os
@@ -37,7 +37,7 @@ screenLock = threading.Lock()
 
 
 def analyze_problem(problem_num):
-    url = 'https://www.acmicpc.net/status/?'
+    url = 'https://www.acmicpc.net/status?'
     query = {'problem_id': problem_num, 'user_id': user_id, 'result_id': '4', 'language_id': '-1', 'from_mine': '1'}
 
     for k, v in query.items():
