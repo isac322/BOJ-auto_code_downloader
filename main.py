@@ -28,7 +28,7 @@ def make_code_file(problem_num, language):
     extension = extensions.extension_name[language]
 
     file_name = problem_num + '.' + extension
-    directory = os.path.join(working_dir, problem_num)
+    directory = os.path.join(working_dir, "{:05d}".format(int(problem_num)))
 
     return open(os.path.join(directory, file_name), 'w+', encoding='utf-8')
 
@@ -96,7 +96,7 @@ ignore_list = frozenset(('10947', '9999', '13757'))
 
 def get_submitted_files(problems):
     for problem_num in problems:
-        directory = os.path.join(working_dir, problem_num)
+        directory = os.path.join(working_dir, "{:05d}".format(int(problem_num)))
 
         if not os.path.exists(directory):
             os.makedirs(directory)
