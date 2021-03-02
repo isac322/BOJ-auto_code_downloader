@@ -14,9 +14,11 @@ __author__ = 'isac322'
 
 def get_solved_problems(sp):
     problems = set()
-
-    for tag in sp.find(class_='panel-body').findAll('span', class_='problem_number'):
-        problems.add(tag.a.text)
+    """
+        2021-03-02 아래 DOM 읽어오는 2줄 수정
+    """
+    for tag in sp.find(class_='panel-body').findAll('a'):
+        problems.add(tag.text)
 
     return problems
 
@@ -90,7 +92,9 @@ def analyze_and_make(problem_num):
             downloaded = down_file(source_code.judge_id, full_cookie)
             file.write(downloaded.decode())
 
-
+"""
+Unrated 문제 추가 요망
+"""
 ignore_list = frozenset(('10947', '9999', '13757'))
 
 
@@ -107,9 +111,14 @@ def get_submitted_files(problems):
 
 if __name__ == '__main__':
     user_id = input('enter nickname : ')
-    user_pw = getpass('enter password : ')
-    full_cookie = login(user_id, user_pw)
+    """
+        2021-03-02 아래 5줄 수정
+    """
+    # user_pw = getpass('enter password : ')
+    # full_cookie = login(user_id, user_pw)
     # print(full_cookie)
+    full_cookie = input("Please Copy&Paste BOJ Cookie Here. Example: 'a=1; b=2; c=3; d=4;' : ")
+    print("오래된 언어의 경우 extensions.py를 적절히 수정해 주지 않으면 다운로드 도중 오류가 날 수도 있습니다. Java 8, C++98에서 오류 나는 것을 확인했습니다. 해당 소스코드 외에는 정상적으로 다운로드 잘 됩니다.")
 
     soup = get_soup('https://acmicpc.net/user/' + user_id)
 
