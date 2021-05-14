@@ -90,7 +90,7 @@ def analyze_and_make(problem_num):
     for language, source_code in submitted_codes.items():
         with make_code_file(problem_num, language) as file:
             downloaded = down_file(source_code.judge_id, full_cookie)
-            file.write(downloaded.decode())
+            file.write(downloaded)
 
 """
 Unrated 문제 추가 요망
