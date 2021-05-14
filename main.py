@@ -50,7 +50,7 @@ def analyze_problem(problem_num):
     page = get_soup(url, query)
     rows = page.find('tbody').find_all('tr')
 
-    if len(rows) is 0:
+    if len(rows) == 0:
         return table
 
     for row in rows:
@@ -117,8 +117,10 @@ if __name__ == '__main__':
     # user_pw = getpass('enter password : ')
     # full_cookie = login(user_id, user_pw)
     # print(full_cookie)
+
     full_cookie = input("Please Copy&Paste BOJ Cookie Here. Example: 'a=1; b=2; c=3; d=4;' : ")
-    print("오래된 언어의 경우 extensions.py를 적절히 수정해 주지 않으면 다운로드 도중 오류가 날 수도 있습니다. Java 8, C++98에서 오류 나는 것을 확인했습니다. 해당 소스코드 외에는 정상적으로 다운로드 잘 됩니다.")
+    print("오래된 언어의 경우 extensions.py를 적절히 수정해 주지 않으면 다운로드 도중 오류가 날 수도 있습니다. 해당 언어들 외에는 정상적으로 다운로드 잘 됩니다.")
+    print("오류시 https://www.acmicpc.net/help/language/all에서 언어 번호를 참고하여 적절히 extensions.py 수정 바람")
 
     soup = get_soup('https://acmicpc.net/user/' + user_id)
 
