@@ -17,8 +17,9 @@ def get_solved_problems(sp):
     """
         2021-03-02 아래 DOM 읽어오는 2줄 수정
     """
-    for tag in sp.find(class_='panel-body').findAll('a'):
-        problems.add(tag.text)
+    for div in sp.findAll(class_='problem-list'):
+        for tag in div.findAll('a'):
+            problems.add(tag.text)
 
     return problems
 
@@ -50,7 +51,7 @@ def analyze_problem(problem_num):
     page = get_soup(url, query)
     rows = page.find('tbody').find_all('tr')
 
-    if len(rows) is 0:
+    if len(rows) == 0:
         return table
 
     for row in rows:
@@ -90,7 +91,7 @@ def analyze_and_make(problem_num):
     for language, source_code in submitted_codes.items():
         with make_code_file(problem_num, language) as file:
             downloaded = down_file(source_code.judge_id, full_cookie)
-            file.write(downloaded.decode())
+            file.write(downloaded)
 
 """
 Unrated 문제 추가 요망
@@ -110,15 +111,17 @@ def get_submitted_files(problems):
 
 
 if __name__ == '__main__':
-    user_id = input('enter nickname : ')
+    user_id = input('enter nickname: ')
     """
         2021-03-02 아래 5줄 수정
     """
     # user_pw = getpass('enter password : ')
     # full_cookie = login(user_id, user_pw)
     # print(full_cookie)
-    full_cookie = input("Please Copy&Paste BOJ Cookie Here. Example: 'a=1; b=2; c=3; d=4;' : ")
-    print("오래된 언어의 경우 extensions.py를 적절히 수정해 주지 않으면 다운로드 도중 오류가 날 수도 있습니다. Java 8, C++98에서 오류 나는 것을 확인했습니다. 해당 소스코드 외에는 정상적으로 다운로드 잘 됩니다.")
+
+    full_cookie = "OnlineJudge=" + input("Please Copy&Paste BOJ Cookie Here: ") + ";"
+    print("오래된 언어의 경우 extensions.py를 적절히 수정해 주지 않으면 다운로드 도중 오류가 날 수도 있습니다. 해당 언어들 외에는 정상적으로 다운로드 잘 됩니다.")
+    print("오류시 https://www.acmicpc.net/help/language/all에서 언어 번호를 참고하여 적절히 extensions.py 수정 바람")
 
     soup = get_soup('https://acmicpc.net/user/' + user_id)
 
@@ -128,5 +131,6 @@ if __name__ == '__main__':
         os.makedirs(working_dir)
 
     problem_set = get_solved_problems(soup)
-
+    
+    print(problem_set)
     get_submitted_files(problem_set)

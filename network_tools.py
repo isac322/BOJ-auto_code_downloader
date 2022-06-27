@@ -37,7 +37,7 @@ def down_file(judge_id, cookie):
 
     response.close()
 
-    return code
+    return "".join(code.decode("utf-8").split("\n"))    # 엔터 중복 제거
 
 
 def login(user_name, pw):
