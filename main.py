@@ -16,8 +16,9 @@ def get_solved_problems(sp):
     problems = set()
     """
         2021-03-02 아래 DOM 읽어오는 2줄 수정
+        2022-09-02 BOJ의 HeatMap 추가로 인한 DOM 읽어오는 코드 수정
     """
-    for tag in sp.find(class_='panel-body').findAll('a'):
+    for tag in sp.findAll(class_='panel-body')[1].findAll('a'):
         problems.add(tag.text)
 
     return problems
